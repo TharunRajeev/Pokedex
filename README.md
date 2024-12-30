@@ -4,7 +4,7 @@ A simple pokedex webapp. Nothing more. Nothing less.
 
 This project is Complete.
 
-The app is hosted on https://tharunrajeev.github.io/Pokedex/
+The app is hosted on https://tharunpokedex.vercel.app
 
 Peace ✌
 
