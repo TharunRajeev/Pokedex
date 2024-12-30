@@ -1,0 +1,439 @@
+@import "../styles/mixins";
+
+.MainContainer {
+  min-width: 425px;
+  min-height: 575px;
+  background-color: var(--MainBackground);
+  position: relative;
+  display: grid;
+
+  @include box(100vw, 100vh);
+  @include make-flex();
+  @include respondAt(1200px) {
+    height: fit-content;
+    min-height: 100%;
+    @include make-flex($just: flex-start);
+  }
+
+  &__ContentWrapper {
+    z-index: 0;
+    display: grid;
+    position: relative;
+    align-self: center;
+    border-radius: 14px;
+    justify-self: center;
+    grid-template-columns: 1.2fr 480px;
+    grid-template-rows: 0.2fr 1fr;
+    grid-template-areas:
+      "pokeImage search"
+      "pokeImage details";
+    background-color: var(--ContainerBackground);
+    max-width: 1110px;
+    max-height: 650px;
+    @include box(85%, 76%);
+    @include respondAt(1200px) {
+      @include box(420px, 100%);
+      border-radius: 0px;
+      max-height: unset;
+
+      grid-template-columns: auto;
+      grid-template-rows: auto auto 1fr;
+      grid-template-areas:
+        "search"
+        "pokeImage"
+        "details";
+    }
+
+    @include respondAt(480px) {
+      @include box();
+    }
+  }
+
+  &__japaneseName {
+    position: absolute;
+
+    grid-area: pokeImage;
+    @include box();
+    @include make-flex();
+    p {
+      font-family: "Shippori Mincho B1", serif;
+      font-size: 6.5rem;
+      height: 90%;
+      color: #797979;
+      z-index: -1;
+      text-align: center;
+    }
+
+    @include respondAt(1200px) {
+      @include box(420px, 100%);
+      p {
+        font-size: 5rem;
+        height: 70%;
+      }
+    }
+
+    @include respondAt(480px) {
+      width: 100%;
+      min-width: 420px;
+      p {
+        font-size: 5rem;
+        height: 95%;
+      }
+    }
+  }
+
+  &__backdrop {
+    z-index: -1;
+    position: absolute;
+    border-radius: 14px;
+    min-height: 480px;
+    @include box();
+
+    @include respondAt(1200px) {
+      // top: 50%;
+      // left: 50%;
+      overflow: hidden;
+      border-radius: unset;
+      @include box(420px, 100%);
+      transform: translateY(10px);
+      // transform: translate(-50%, -35%);
+      grid-area: pokeImage;
+      svg {
+        width: 520% !important;
+        transform: translateY(10%) translateX(-20%);
+      }
+    }
+
+    @include respondAt(480px) {
+      width: 100%;
+    }
+  }
+
+  &__search,
+  &__image,
+  &__details {
+    @include respondAt(1200px) {
+      height: calc(100% - 10px);
+      width: 100.1%;
+      justify-self: center;
+      &::after {
+        box-shadow: unset;
+      }
+    }
+  }
+
+  &__search,
+  &__details {
+    justify-self: center;
+    position: relative;
+  }
+
+  &__pokeImage {
+    grid-area: pokeImage;
+    align-self: center;
+    justify-self: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto minmax(50px, auto);
+    grid-template-areas: "leftC . rightC" ". . .";
+
+    @include respondAt(1200px) {
+      height: 560px;
+    }
+
+    @include respondAt(480px) {
+      grid-template-columns: auto 75px auto;
+      grid-template-rows: 460px auto;
+      grid-template-areas:
+        "imagePNG imagePNG imagePNG"
+        "leftC ImgLoader rightC";
+      margin-bottom: 25px;
+    }
+
+    &__leftChevron,
+    &__rightChevron {
+      @include box(30px, 60px);
+      cursor: pointer;
+
+      align-self: center;
+      justify-self: center;
+      mix-blend-mode: difference;
+      &:hover {
+        background-color: #626262;
+      }
+      &:active {
+        background-color: rgb(177, 236, 223);
+      }
+      &:focus {
+        background-color: rgb(255, 0, 0);
+      }
+    }
+
+    &__leftChevron {
+      grid-area: leftC;
+      background-color: #bdbdbd;
+      background-size: cover;
+      clip-path: polygon(100% 0, 0% 50%, 100% 100%);
+    }
+    &__rightChevron {
+      grid-area: rightC;
+      background-color: #bdbdbd;
+      background-size: cover;
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+    }
+  }
+
+  &__search {
+    grid-area: search;
+    align-self: flex-end;
+    position: relative;
+    border-radius: 15px 15px 0px 0px;
+    background-color: var(--DetailsBoxBackground);
+
+    @include box(90%, 70%);
+    @include respondAt(1200px) {
+      border-radius: 0px;
+      @include box(100%, 75px);
+    }
+
+    &::before {
+      top: 0px;
+      left: 0;
+      content: "";
+      z-index: -1;
+      @include box();
+      position: absolute;
+      border-radius: 15px 15px 0px 0px;
+      box-shadow: var(--DetailsBoxShadow);
+    }
+
+    &__input {
+      @include box();
+      // background-color: aquamarine;
+      border-radius: 15px 15px 0px 0px;
+      z-index: 1;
+      padding: 17px 18px 0px;
+      @include respondAt(1200px) {
+        padding: 12px 12px;
+      }
+    }
+
+    &__name {
+      top: 0%;
+      left: 0%;
+      padding: 13px 18px 0px 80px;
+      @include box();
+      z-index: 0;
+      font-size: 2em;
+      position: absolute;
+      white-space: nowrap;
+      word-break: keep-all;
+      text-overflow: ellipsis;
+      font-family: "Arvo", serif;
+      color: var(--PokemonNameColor);
+      border-radius: 15px 15px 0px 0px;
+      @include make-flex($dir: row, $just: flex-start);
+
+      @include respondAt(1200px) {
+        padding: 0 75px;
+      }
+    }
+  }
+
+  &__details {
+    grid-area: details;
+    display: grid;
+    position: relative;
+    align-self: flex-start;
+    // @include make-flex();
+    border-radius: 0px 0px 15px 15px;
+
+    background-color: var(--DetailsBoxBackground);
+
+    @include box(90%, 95%);
+    max-height: 95%;
+    @include respondAt(1200px) {
+      border-radius: 15px 15px 0px 0px;
+      max-height: unset;
+      @include box(100%, auto);
+    }
+
+    &::after {
+      content: "";
+      z-index: -1;
+      @include box();
+      position: absolute;
+
+      border-radius: 0px 0px 15px 15px;
+      box-shadow: var(--DetailsBoxShadow);
+
+      // background-color: #00ffff80;
+      pointer-events: none;
+
+      @include respondAt(1200px) {
+        border-radius: 15px 15px 0px 0px;
+      }
+    }
+
+    &__contentWrapperParent {
+      height: 100%;
+      width: 100%;
+      overflow-y: scroll;
+      position: absolute;
+      @include make-flex($just: flex-start);
+      @include respondAt(1200px) {
+        overflow: hidden;
+        position: relative;
+      }
+    }
+
+    &__contentWrapper {
+      padding: 9px 18px 18px;
+      width: 100%;
+      @include make-flex();
+      gap: 18px;
+
+      @include respondAt(1200px) {
+        padding: 18px 18px;
+      }
+    }
+  }
+
+  &__detailsContentBox {
+    width: 100%;
+    height: fit-content;
+    gap: 18px;
+    @include make-flex($just: flex-start, $dir: row);
+
+    &--abilitiesTitle {
+      font-weight: normal;
+      font-size: 22.5px;
+    }
+
+    &--abilitiesItem {
+      width: 100%;
+      text-align: center;
+      background-color: var(--AbilityBoxColor);
+      padding: 6px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+    }
+
+    &--EvoChainTitle {
+      font-weight: normal;
+      font-size: 22.5px;
+    }
+
+    &--EvoChainItems {
+      @include make-flex($dir: row);
+      flex-wrap: wrap;
+      @include box();
+      gap: 10px;
+    }
+  }
+}
+
+.GallerySelector {
+  align-items: center;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  position: relative;
+
+  &__dotsContainer {
+    position: absolute;
+    height: 26px;
+    padding: 0 15px 0 15px;
+    width: 100%;
+    bottom: 15px;
+    @include make-flex($dir: row, $just: space-between);
+
+    &__leftChevron,
+    &__rightChevron {
+      width: 15px;
+      height: 25px;
+      cursor: pointer;
+
+      align-self: center;
+      justify-self: center;
+
+      background-color: var(--ImageGalleryChevron);
+    }
+    &__leftChevron {
+      clip-path: polygon(100% 0, 0% 50%, 100% 100%);
+    }
+    &__rightChevron {
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+    }
+  }
+  &__counter {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+  &__image {
+    @include make-flex();
+    position: relative;
+    height: 205px;
+    width: 100%;
+
+    border-radius: 15px;
+    background-color: var(--ImageGalleryBG);
+    &__galleryItems {
+      // height: 80%;
+      width: 80%;
+      margin-bottom: 20px;
+    }
+  }
+}
+.embla {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  &__container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+  &__slide {
+    position: relative;
+    flex: 0 0 100%;
+    @include make-flex();
+    // height: 80%;
+    // width: 80%;
+    // margin-bottom: 20px;
+  }
+}
+
+.Feet {
+  position: relative;
+  &:after {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    content: attr(data-tooltip);
+    padding: 1px 7px;
+    font-size: 13px;
+    text-align: center;
+    left: -1px;
+    bottom: -1px;
+    width: 78px;
+    background: grey;
+    color: white;
+    white-space: nowrap;
+    z-index: 3;
+    transform: translateY(16px);
+    border-radius: 0 0 7px 7px;
+    // transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  &:hover,
+  &:focus {
+    &:after {
+      transform: translateY(0px);
+
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
